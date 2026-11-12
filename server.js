@@ -1,5 +1,4 @@
 
-
 const express = require("express");
 const cors = require("cors");
 
@@ -20,39 +19,29 @@ app.post("/chat", async (req, res) => {
     const { message } = req.body;
 
     if (!message || typeof message !== "string") {
-      return res.status(400).json({
-        error: "Message required"
-      });
+      return res.status(400).json({ error: "Message required" });
     }
 
-    if (!process.env.HF_TOKEN) {
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
       return res.status(500).json({
-        error: "AI token is not configured"
+        error: "Gemini API key is not configured"
       });
     }
 
     const response = await fetch(
-      "https://router.huggingface.co/v1/chat/completions",
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
       {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${process.env.HF_TOKEN}`,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey
         },
         body: JSON.stringify({
-          model: "Qwen/Qwen3-4B-Instruct-2507:featherless-ai",
-          messages: [
-            {
-              role: "system",
-              content: "You are Vikrant AI, a helpful multilingual assistant. Always reply in the same language as the user. Match the user's tone and explain things clearly."
-            },
-            {
-              role: "user",
-              content: message
-            }
-          ],
-          max_tokens: 500,
-          stream: false
+          contents: [{
+            parts: [{ text: message }]
+          }]
         })
       }
     );
@@ -60,26 +49,23 @@ app.post("/chat", async (req, res) => {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Hugging Face error:", response.status, data);
+      console.error("Gemini error:", response.status, data);
       return res.status(502).json({
-        error: "AI provider error. Please try again later."
+        error: data.error?.message || "Gemini provider error"
       });
     }
 
-    const reply = data.choices?.[0]?.message?.content;
-
-    if (!reply) {
-      return res.status(502).json({
-        error: "AI returned an empty response"
-      });
-    }
+    const reply =
+      data.candidates?.[0]?.content?.parts
+        ?.map(part => part.text || "")
+        .join("") || "No reply received.";
 
     res.json({ reply });
 
   } catch (error) {
     console.error("Chat error:", error);
     res.status(500).json({
-      error: "Something went wrong. Please try again."
+      error: "Something went wrong."
     });
   }
 });
