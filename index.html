@@ -1,180 +1,266 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090b14">
 <title>Vikrant AI</title>
+
 <style>
 *{box-sizing:border-box}
 body{
-margin:0;
-background:#090b12;
-color:white;
-font-family:Arial,sans-serif;
+ margin:0;
+ background:#090b14;
+ color:white;
+ font-family:Arial,sans-serif;
 }
 header{
-padding:20px;
-border-bottom:1px solid #252a38;
-display:flex;
-justify-content:space-between;
-align-items:center;
+ padding:20px;
+ display:flex;
+ justify-content:space-between;
+ border-bottom:1px solid #292e40;
+ font-size:22px;
+ font-weight:bold;
 }
-.logo{font-size:23px;font-weight:bold}
-.logo span{color:#7c83ff}
+.logo span{color:#8174ff}
 main{
-max-width:750px;
-margin:auto;
-padding:25px 16px;
+ max-width:950px;
+ margin:auto;
+ padding:45px 20px;
 }
-.welcome{
-text-align:center;
-margin:65px 0 35px;
-}
-.welcome h1{font-size:32px}
-.welcome p{color:#a1a6b8}
+.hero{text-align:center;margin-bottom:35px}
+h1{font-size:42px}
+.hero p{color:#a1a8ba}
 .tools{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:15px;
 }
 .tool{
-background:#151a28;
-border:1px solid #30364a;
-border-radius:14px;
-padding:20px;
-cursor:pointer;
-color:white;
+ background:#171d2d;
+ border:1px solid #30374c;
+ color:white;
+ border-radius:18px;
+ padding:25px 15px;
+ text-align:left;
+ cursor:pointer;
 }
-.tool b{font-size:17px}
-.tool p{color:#9ca3b8;font-size:13px}
-.chatbox{
-margin-top:25px;
-background:#151a28;
-border:1px solid #34394c;
-border-radius:15px;
-padding:12px;
+.tool.active{border:2px solid #8174ff}
+.tool h2{font-size:20px}
+.tool p{color:#a1a8ba}
+.composer{
+ background:#171d2d;
+ border:1px solid #353c52;
+ padding:18px;
+ border-radius:18px;
+ margin-top:25px;
 }
 textarea{
-width:100%;
-height:90px;
-background:transparent;
-border:0;
-outline:none;
-resize:none;
-color:white;
-font-size:16px;
+ width:100%;
+ height:120px;
+ background:transparent;
+ color:white;
+ border:0;
+ outline:none;
+ resize:vertical;
+ font-size:16px;
 }
-button{
-background:#6965ff;
-color:white;
-border:0;
-padding:13px 20px;
-border-radius:10px;
-font-size:15px;
-cursor:pointer;
+.bottom{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
 }
-.actions{
-display:flex;
-justify-content:space-between;
-align-items:center;
+button.send{
+ background:#7164ff;
+ border:0;
+ color:white;
+ padding:13px 25px;
+ border-radius:12px;
+ font-size:16px;
+ cursor:pointer;
 }
-#messages{margin-top:25px}
+#messages{margin-top:20px}
 .message{
-background:#171d2b;
-padding:15px;
-border-radius:12px;
-margin:12px 0;
-overflow-wrap:anywhere;
+ background:#171d2d;
+ border-radius:13px;
+ padding:17px;
+ margin-top:12px;
+ overflow-wrap:anywhere;
+ line-height:1.5;
+}
+.message b{color:#a99fff}
+.note{
+ margin-top:20px;
+ color:#a1a8ba;
+ background:#171d2d;
+ padding:15px;
+ border-radius:12px;
+ font-size:13px;
 }
 footer{
-text-align:center;
-color:#777f91;
-font-size:12px;
-padding:30px;
+ text-align:center;
+ padding:25px;
+ color:#81899d;
+}
+@media(max-width:600px){
+ h1{font-size:32px}
+ .tool{padding:18px 12px}
 }
 </style>
 </head>
+
 <body>
 
 <header>
-<div class="logo">VIKRANT <span>AI</span></div>
-<div>⚡ AI Platform</div>
+ <div class="logo">VIKRANT <span>AI</span></div>
+ <div>⚡ AI Platform</div>
 </header>
 
 <main>
-<div class="welcome">
-<h1>Welcome to Vikrant AI</h1>
-<p>Your ideas. Your imagination. One AI platform.</p>
+
+<section class="hero">
+ <h1>Welcome to Vikrant AI</h1>
+ <p>Your ideas. Your imagination. One AI platform.</p>
+</section>
+
+<h3>Choose Your AI Tool</h3>
+
+<section class="tools">
+
+<button class="tool active" data-mode="Chat">
+ <h2>💬 AI Chat</h2>
+ <p>Ask anything</p>
+</button>
+
+<button class="tool" data-mode="Image">
+ <h2>🎨 Image AI</h2>
+ <p>Create images from text</p>
+</button>
+
+<button class="tool" data-mode="Video">
+ <h2>🎬 Video AI</h2>
+ <p>Generate videos from ideas</p>
+</button>
+
+<button class="tool" data-mode="Coding">
+ <h2>💻 Coding AI</h2>
+ <p>Build and learn code</p>
+</button>
+
+</section>
+
+<section class="composer">
+
+<p id="modeLabel">Mode: Chat</p>
+
+<textarea id="prompt"
+placeholder="Ask Vikrant AI anything..."></textarea>
+
+<div class="bottom">
+ <small>Vikrant AI Workspace</small>
+ <button class="send" onclick="sendMessage()">
+ Send ↑
+ </button>
 </div>
 
-<div class="tools">
-<div class="tool" onclick="selectTool('Chat')">
-<b>💬 AI Chat</b>
-<p>Ask anything</p>
-</div>
-<div class="tool" onclick="selectTool('Image')">
-<b>🎨 Image AI</b>
-<p>Create images from text</p>
-</div>
-<div class="tool" onclick="selectTool('Video')">
-<b>🎬 Video AI</b>
-<p>Generate videos from ideas</p>
-</div>
-<div class="tool" onclick="selectTool('Coding')">
-<b>💻 Coding AI</b>
-<p>Build and learn code</p>
-</div>
-</div>
-
-<div class="chatbox">
-<textarea id="prompt" placeholder="Ask Vikrant AI anything..."></textarea>
-<div class="actions">
-<span id="mode">Mode: Chat</span>
-<button onclick="sendMessage()">Send ↑</button>
-</div>
-</div>
+</section>
 
 <div id="messages"></div>
+
+<div class="note">
+ <b>Development:</b> Frontend ready.
+ Real AI responses and image/video generation
+ require a secure backend and AI model connection.
+ Never put secret API keys in this public website.
+</div>
+
 </main>
 
 <footer>
-Vikrant AI © 2026 | Built with ambition.
+Vikrant AI © 2026
 </footer>
 
 <script>
+
 let currentMode="Chat";
 
-function selectTool(mode){
-currentMode=mode;
-document.getElementById("mode").innerText="Mode: "+mode;
-document.getElementById("prompt").placeholder=
-"Enter your "+mode+" prompt...";
-}
+const promptBox=document.getElementById("prompt");
+
+document.querySelectorAll(".tool").forEach(button=>{
+
+ button.addEventListener("click",()=>{
+
+  document.querySelectorAll(".tool")
+  .forEach(item=>item.classList.remove("active"));
+
+  button.classList.add("active");
+
+  currentMode=button.dataset.mode;
+
+  document.getElementById("modeLabel").innerText=
+  "Mode: "+currentMode;
+
+  const hints={
+   Chat:"Ask Vikrant AI anything...",
+   Image:"Describe your image...",
+   Video:"Describe your video...",
+   Coding:"What do you want to code?"
+  };
+
+  promptBox.placeholder=hints[currentMode];
+
+ });
+
+});
 
 function sendMessage(){
-let input=document.getElementById("prompt");
-let value=input.value.trim();
 
-if(!value){
-alert("Please enter your prompt!");
-return;
+ const value=promptBox.value.trim();
+
+ if(!value)return;
+
+ const messages=document.getElementById("messages");
+
+ const user=document.createElement("div");
+ user.className="message";
+
+ const userTitle=document.createElement("b");
+ userTitle.innerText="You ("+currentMode+")";
+
+ const userText=document.createElement("p");
+ userText.innerText=value;
+
+ user.append(userTitle,userText);
+ messages.appendChild(user);
+
+ const reply=document.createElement("div");
+ reply.className="message";
+
+ const title=document.createElement("b");
+ title.innerText="Vikrant AI";
+
+ const answer=document.createElement("p");
+
+ const responses={
+  Chat:"Your message is received. AI backend is not connected yet.",
+  Image:"Your image prompt is ready. Connect an image generation model to create images.",
+  Video:"Your video prompt is ready. Connect a video generation model to create videos.",
+  Coding:"Your coding request is ready. Connect an AI coding model for code assistance."
+ };
+
+ answer.innerText=responses[currentMode];
+
+ reply.append(title,answer);
+ messages.appendChild(reply);
+
+ promptBox.value="";
+
+ reply.scrollIntoView({behavior:"smooth"});
+
 }
 
-let messages=document.getElementById("messages");
-
-let user=document.createElement("div");
-user.className="message";
-user.innerText="You ("+currentMode+"): "+value;
-messages.appendChild(user);
-
-let reply=document.createElement("div");
-reply.className="message";
-reply.innerText="Vikrant AI: Your request has been received. AI backend is not connected yet. This is the first frontend version.";
-messages.appendChild(reply);
-
-input.value="";
-}
 </script>
 
 </body>
