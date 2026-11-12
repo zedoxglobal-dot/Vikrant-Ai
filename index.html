@@ -6,110 +6,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#090b14">
 <title>Vikrant AI</title>
-
 <style>
 *{box-sizing:border-box}
-body{
- margin:0;
- background:#090b14;
- color:white;
- font-family:Arial,sans-serif;
-}
-header{
- padding:20px;
- display:flex;
- justify-content:space-between;
- border-bottom:1px solid #292e40;
- font-size:22px;
- font-weight:bold;
-}
+body{margin:0;background:#090b14;color:white;font-family:Arial,sans-serif}
+header{padding:20px;display:flex;justify-content:space-between;border-bottom:1px solid #292e40;font-size:22px;font-weight:bold}
 .logo span{color:#8174ff}
-main{
- max-width:950px;
- margin:auto;
- padding:45px 20px;
-}
+main{max-width:950px;margin:auto;padding:45px 20px}
 .hero{text-align:center;margin-bottom:35px}
 h1{font-size:42px}
-.hero p{color:#a1a8ba}
-.tools{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:15px;
-}
-.tool{
- background:#171d2d;
- border:1px solid #30374c;
- color:white;
- border-radius:18px;
- padding:25px 15px;
- text-align:left;
- cursor:pointer;
-}
+.hero p,.tool p{color:#a1a8ba}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.tool{background:#171d2d;border:1px solid #30374c;color:white;border-radius:18px;padding:25px 15px;text-align:left;cursor:pointer}
 .tool.active{border:2px solid #8174ff}
 .tool h2{font-size:20px}
-.tool p{color:#a1a8ba}
-.composer{
- background:#171d2d;
- border:1px solid #353c52;
- padding:18px;
- border-radius:18px;
- margin-top:25px;
-}
-textarea{
- width:100%;
- height:120px;
- background:transparent;
- color:white;
- border:0;
- outline:none;
- resize:vertical;
- font-size:16px;
-}
-.bottom{
- display:flex;
- justify-content:space-between;
- align-items:center;
-}
-button.send{
- background:#7164ff;
- border:0;
- color:white;
- padding:13px 25px;
- border-radius:12px;
- font-size:16px;
- cursor:pointer;
-}
+.composer{background:#171d2d;border:1px solid #353c52;padding:18px;border-radius:18px;margin-top:25px}
+textarea{width:100%;height:120px;background:transparent;color:white;border:0;outline:none;resize:vertical;font-size:16px}
+.bottom{display:flex;justify-content:space-between;align-items:center}
+button.send{background:#7164ff;border:0;color:white;padding:13px 25px;border-radius:12px;font-size:16px;cursor:pointer}
+button:disabled{opacity:.5}
 #messages{margin-top:20px}
-.message{
- background:#171d2d;
- border-radius:13px;
- padding:17px;
- margin-top:12px;
- overflow-wrap:anywhere;
- line-height:1.5;
-}
+.message{background:#171d2d;border-radius:13px;padding:17px;margin-top:12px;overflow-wrap:anywhere;line-height:1.5;white-space:pre-wrap}
 .message b{color:#a99fff}
-.note{
- margin-top:20px;
- color:#a1a8ba;
- background:#171d2d;
- padding:15px;
- border-radius:12px;
- font-size:13px;
-}
-footer{
- text-align:center;
- padding:25px;
- color:#81899d;
-}
-@media(max-width:600px){
- h1{font-size:32px}
- .tool{padding:18px 12px}
-}
+.note{margin-top:20px;color:#a1a8ba;background:#171d2d;padding:15px;border-radius:12px;font-size:13px}
+footer{text-align:center;padding:25px;color:#81899d}
+@media(max-width:600px){h1{font-size:32px}.tool{padding:18px 12px}}
 </style>
 </head>
-
 <body>
 
 <header>
@@ -118,149 +40,117 @@ footer{
 </header>
 
 <main>
-
 <section class="hero">
  <h1>Welcome to Vikrant AI</h1>
  <p>Your ideas. Your imagination. One AI platform.</p>
 </section>
 
 <h3>Choose Your AI Tool</h3>
-
 <section class="tools">
-
-<button class="tool active" data-mode="Chat">
- <h2>💬 AI Chat</h2>
- <p>Ask anything</p>
-</button>
-
-<button class="tool" data-mode="Image">
- <h2>🎨 Image AI</h2>
- <p>Create images from text</p>
-</button>
-
-<button class="tool" data-mode="Video">
- <h2>🎬 Video AI</h2>
- <p>Generate videos from ideas</p>
-</button>
-
-<button class="tool" data-mode="Coding">
- <h2>💻 Coding AI</h2>
- <p>Build and learn code</p>
-</button>
-
+<button class="tool active" data-mode="Chat"><h2>💬 AI Chat</h2><p>Ask anything</p></button>
+<button class="tool" data-mode="Image"><h2>🎨 Image AI</h2><p>Create images from text</p></button>
+<button class="tool" data-mode="Video"><h2>🎬 Video AI</h2><p>Generate videos from ideas</p></button>
+<button class="tool" data-mode="Coding"><h2>💻 Coding AI</h2><p>Build and learn code</p></button>
 </section>
 
 <section class="composer">
-
 <p id="modeLabel">Mode: Chat</p>
-
-<textarea id="prompt"
-placeholder="Ask Vikrant AI anything..."></textarea>
-
+<textarea id="prompt" placeholder="Ask Vikrant AI anything..."></textarea>
 <div class="bottom">
- <small>Vikrant AI Workspace</small>
- <button class="send" onclick="sendMessage()">
- Send ↑
- </button>
+<small>Vikrant AI Workspace</small>
+<button class="send" id="sendBtn" onclick="sendMessage()">Send ↑</button>
 </div>
-
 </section>
 
 <div id="messages"></div>
 
 <div class="note">
- <b>Development:</b> Frontend ready.
- Real AI responses and image/video generation
- require a secure backend and AI model connection.
- Never put secret API keys in this public website.
+<b>Development:</b> Vikrant AI Backend connected. Image and video generation models will be connected in future updates.
 </div>
-
 </main>
 
-<footer>
-Vikrant AI © 2026
-</footer>
+<footer>Vikrant AI © 2026</footer>
 
 <script>
-
+const API_URL="https://vikrant-ai.onrender.com";
 let currentMode="Chat";
 
 const promptBox=document.getElementById("prompt");
+const messages=document.getElementById("messages");
+const sendBtn=document.getElementById("sendBtn");
 
 document.querySelectorAll(".tool").forEach(button=>{
+button.addEventListener("click",()=>{
+document.querySelectorAll(".tool").forEach(item=>item.classList.remove("active"));
+button.classList.add("active");
+currentMode=button.dataset.mode;
+document.getElementById("modeLabel").innerText="Mode: "+currentMode;
 
- button.addEventListener("click",()=>{
-
-  document.querySelectorAll(".tool")
-  .forEach(item=>item.classList.remove("active"));
-
-  button.classList.add("active");
-
-  currentMode=button.dataset.mode;
-
-  document.getElementById("modeLabel").innerText=
-  "Mode: "+currentMode;
-
-  const hints={
-   Chat:"Ask Vikrant AI anything...",
-   Image:"Describe your image...",
-   Video:"Describe your video...",
-   Coding:"What do you want to code?"
-  };
-
-  promptBox.placeholder=hints[currentMode];
-
- });
-
+const hints={
+Chat:"Ask Vikrant AI anything...",
+Image:"Describe your image...",
+Video:"Describe your video...",
+Coding:"What do you want to code?"
+};
+promptBox.placeholder=hints[currentMode];
+});
 });
 
-function sendMessage(){
-
- const value=promptBox.value.trim();
-
- if(!value)return;
-
- const messages=document.getElementById("messages");
-
- const user=document.createElement("div");
- user.className="message";
-
- const userTitle=document.createElement("b");
- userTitle.innerText="You ("+currentMode+")";
-
- const userText=document.createElement("p");
- userText.innerText=value;
-
- user.append(userTitle,userText);
- messages.appendChild(user);
-
- const reply=document.createElement("div");
- reply.className="message";
-
- const title=document.createElement("b");
- title.innerText="Vikrant AI";
-
- const answer=document.createElement("p");
-
- const responses={
-  Chat:"Your message is received. AI backend is not connected yet.",
-  Image:"Your image prompt is ready. Connect an image generation model to create images.",
-  Video:"Your video prompt is ready. Connect a video generation model to create videos.",
-  Coding:"Your coding request is ready. Connect an AI coding model for code assistance."
- };
-
- answer.innerText=responses[currentMode];
-
- reply.append(title,answer);
- messages.appendChild(reply);
-
- promptBox.value="";
-
- reply.scrollIntoView({behavior:"smooth"});
-
+function addMessage(title,text){
+const box=document.createElement("div");
+box.className="message";
+const heading=document.createElement("b");
+heading.innerText=title;
+const content=document.createElement("p");
+content.innerText=text;
+box.append(heading,content);
+messages.appendChild(box);
+box.scrollIntoView({behavior:"smooth"});
+return content;
 }
 
-</script>
+async function sendMessage(){
+const value=promptBox.value.trim();
+if(!value)return;
 
+if(currentMode!=="Chat"){
+addMessage("You ("+currentMode+")",value);
+addMessage("Vikrant AI",
+currentMode+" generation is not connected yet. The feature will be added in a future update.");
+promptBox.value="";
+return;
+}
+
+addMessage("You",value);
+promptBox.value="";
+sendBtn.disabled=true;
+const answer=addMessage("Vikrant AI","Connecting to server...");
+
+try{
+const response=await fetch(API_URL+"/chat",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({message:value})
+});
+
+const data=await response.json();
+
+if(!response.ok)throw new Error(data.error||"Server error");
+
+answer.innerText=data.reply||"No reply received.";
+}catch(error){
+answer.innerText="Connection error. Please try again.";
+}finally{
+sendBtn.disabled=false;
+}
+}
+
+promptBox.addEventListener("keydown",event=>{
+if(event.key==="Enter"&&!event.shiftKey){
+event.preventDefault();
+sendMessage();
+}
+});
+</script>
 </body>
 </html>
