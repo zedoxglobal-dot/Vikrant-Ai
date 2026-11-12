@@ -139,7 +139,8 @@ if(!response.ok)throw new Error(data.error||"Server error");
 
 answer.innerText=data.reply||"No reply received.";
 }catch(error){
-answer.innerText="Connection error. Please try again.";
+  answer.innerText="Error: " + error.message;
+  console.error(error);
 }finally{
 sendBtn.disabled=false;
 }
