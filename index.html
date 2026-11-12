@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vikrant AI</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+background:#090b12;
+color:white;
+font-family:Arial,sans-serif;
+}
+header{
+padding:20px;
+border-bottom:1px solid #252a38;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+.logo{font-size:23px;font-weight:bold}
+.logo span{color:#7c83ff}
+main{
+max-width:750px;
+margin:auto;
+padding:25px 16px;
+}
+.welcome{
+text-align:center;
+margin:65px 0 35px;
+}
+.welcome h1{font-size:32px}
+.welcome p{color:#a1a6b8}
+.tools{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+}
+.tool{
+background:#151a28;
+border:1px solid #30364a;
+border-radius:14px;
+padding:20px;
+cursor:pointer;
+color:white;
+}
+.tool b{font-size:17px}
+.tool p{color:#9ca3b8;font-size:13px}
+.chatbox{
+margin-top:25px;
+background:#151a28;
+border:1px solid #34394c;
+border-radius:15px;
+padding:12px;
+}
+textarea{
+width:100%;
+height:90px;
+background:transparent;
+border:0;
+outline:none;
+resize:none;
+color:white;
+font-size:16px;
+}
+button{
+background:#6965ff;
+color:white;
+border:0;
+padding:13px 20px;
+border-radius:10px;
+font-size:15px;
+cursor:pointer;
+}
+.actions{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+#messages{margin-top:25px}
+.message{
+background:#171d2b;
+padding:15px;
+border-radius:12px;
+margin:12px 0;
+overflow-wrap:anywhere;
+}
+footer{
+text-align:center;
+color:#777f91;
+font-size:12px;
+padding:30px;
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">VIKRANT <span>AI</span></div>
+<div>⚡ AI Platform</div>
+</header>
+
+<main>
+<div class="welcome">
+<h1>Welcome to Vikrant AI</h1>
+<p>Your ideas. Your imagination. One AI platform.</p>
+</div>
+
+<div class="tools">
+<div class="tool" onclick="selectTool('Chat')">
+<b>💬 AI Chat</b>
+<p>Ask anything</p>
+</div>
+<div class="tool" onclick="selectTool('Image')">
+<b>🎨 Image AI</b>
+<p>Create images from text</p>
+</div>
+<div class="tool" onclick="selectTool('Video')">
+<b>🎬 Video AI</b>
+<p>Generate videos from ideas</p>
+</div>
+<div class="tool" onclick="selectTool('Coding')">
+<b>💻 Coding AI</b>
+<p>Build and learn code</p>
+</div>
+</div>
+
+<div class="chatbox">
+<textarea id="prompt" placeholder="Ask Vikrant AI anything..."></textarea>
+<div class="actions">
+<span id="mode">Mode: Chat</span>
+<button onclick="sendMessage()">Send ↑</button>
+</div>
+</div>
+
+<div id="messages"></div>
+</main>
+
+<footer>
+Vikrant AI © 2026 | Built with ambition.
+</footer>
+
+<script>
+let currentMode="Chat";
+
+function selectTool(mode){
+currentMode=mode;
+document.getElementById("mode").innerText="Mode: "+mode;
+document.getElementById("prompt").placeholder=
+"Enter your "+mode+" prompt...";
+}
+
+function sendMessage(){
+let input=document.getElementById("prompt");
+let value=input.value.trim();
+
+if(!value){
+alert("Please enter your prompt!");
+return;
+}
+
+let messages=document.getElementById("messages");
+
+let user=document.createElement("div");
+user.className="message";
+user.innerText="You ("+currentMode+"): "+value;
+messages.appendChild(user);
+
+let reply=document.createElement("div");
+reply.className="message";
+reply.innerText="Vikrant AI: Your request has been received. AI backend is not connected yet. This is the first frontend version.";
+messages.appendChild(reply);
+
+input.value="";
+}
+</script>
+
+</body>
+</html>
